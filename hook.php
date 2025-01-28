@@ -32,17 +32,17 @@ function plugin_wakeonlan_install() {
             PRIMARY KEY (`id`),
             UNIQUE KEY `unicity` (`type`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1";
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
       $query = "INSERT INTO `glpi_plugin_wakeonlan_configs` (type, value) VALUES('entities_id', 0)";
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
       $query = "INSERT INTO `glpi_plugin_wakeonlan_configs` (type, value) VALUES('wolmethod', 'local')";
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    } else {
       //Make sure existing tables have desired properties
       $query = "ALTER TABLE `glpi_plugin_wakeonlan_configs` MODIFY COLUMN `id` int UNSIGNED NOT NULL AUTO_INCREMENT";
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
       $query = "ALTER TABLE `glpi_plugin_wakeonlan_configs` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    }
    $migration->executeMigration();
    return true;
