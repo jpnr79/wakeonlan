@@ -38,7 +38,8 @@ function plugin_version_wakeonlan() {
        'author' => 'UB Mannheim',
        'requirements' => [
           'glpi' => [
-             'min' => '10.0',
+             'min' => '11.0',
+             'max' => '12.0',
           ],
           'php' => [
               'min' => '8.1',
