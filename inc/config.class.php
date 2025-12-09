@@ -51,6 +51,17 @@ class PluginWakeonlanConfig extends CommonDBTM
    }
 
    function showForm($ID, array $options = []) {
+      if ($ID < 0) {
+         // For new records, check if user can create
+         if (!static::canCreate()) {
+            return false;
+         }
+      } else {
+         // For existing records, check if user can view/update
+         if (!$this->can($ID, READ)) {
+            return false;
+         }
+      }
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
