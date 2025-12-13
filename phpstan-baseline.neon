@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function in_array invoked with 1 parameter, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Class Html referenced with incorrect case\: HTML\.$#'
+			identifier: class.nameCase
+			count: 4
+			path: inc/config.class.php
+
+		-
+			message: '#^Static call to instance method CommonDBTM\:\:showMassiveActionsSubForm\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: inc/wol.class.php
