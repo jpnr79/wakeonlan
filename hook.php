@@ -32,17 +32,17 @@ function plugin_wakeonlan_install() {
             PRIMARY KEY (`id`),
             UNIQUE KEY `unicity` (`type`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1";
-      $DB->doQueryOrDie($query, $DB->error());
+      $DB->query($query);
       $query = "INSERT INTO `glpi_plugin_wakeonlan_configs` (type, value) VALUES('entities_id', 0)";
-      $DB->doQueryOrDie($query, $DB->error());
+      $DB->query($query);
       $query = "INSERT INTO `glpi_plugin_wakeonlan_configs` (type, value) VALUES('wolmethod', 'local')";
-      $DB->doQueryOrDie($query, $DB->error());
+      $DB->query($query);
    } else {
       //Make sure existing tables have desired properties
       $query = "ALTER TABLE `glpi_plugin_wakeonlan_configs` MODIFY COLUMN `id` int UNSIGNED NOT NULL AUTO_INCREMENT";
-      $DB->doQueryOrDie($query, $DB->error());
+      $DB->query($query);
       $query = "ALTER TABLE `glpi_plugin_wakeonlan_configs` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
-      $DB->doQueryOrDie($query, $DB->error());
+      $DB->query($query);
    }
    $migration->executeMigration();
    return true;
@@ -58,10 +58,7 @@ function plugin_wakeonlan_uninstall() {
    foreach ($tables as $table) {
       $tablename = 'glpi_plugin_wakeonlan_' . $table;
       if ($DB->tableExists($tablename)) {
-         $DB->queryOrDie(
-            "DROP TABLE `$tablename`",
-            $DB->error()
-         );
+         $DB->dropTable($tablename);
       }
    }
 
@@ -70,7 +67,7 @@ function plugin_wakeonlan_uninstall() {
 
 function plugin_wakeonlan_postItemForm($params) {
    if (isset($params['item']) && $params['item'] instanceof CommonDBTM) {
-      if (in_array(get_class($params['item'], ['Computer', 'Printer', 'Peripheral']))) {
+      if (in_array(get_class($params['item']), ['Computer', 'Printer', 'Peripheral'])) {
          PluginWakeonlanWOL::show_button($params['item']);
       }
    }
